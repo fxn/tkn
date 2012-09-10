@@ -6,7 +6,7 @@
 
 Terminal Keynote is a quick and dirty script I wrote for presenting my talks at [BaRuCo 2012](http://baruco.org) and [RailsClub 2012](http://railsclub.ru).
 
-This is a total hack. It is procedural, uses a global variable, it has not been parametrized or generalized in anyway. It was tailor-made for what I exactly wanted but some people in the audience asked for the script. Even if it is quick and dirty I am very happy to share it so I have commented the source code and there you go!
+This is a total hack. It is procedural, uses a global variable, it has not been parametrized or generalized in any way. It was tailor-made for what I exactly wanted but some people in the audience asked for the script. Even if it is quick and dirty I am very happy to share it so I have commented the source code and there you go!
 
 ## Markup
 
@@ -38,7 +38,7 @@ A slide whose text is centered line by line.
 
 A slide with text content whose formatting is preserved, but that is centered as a whole in the screen. Do that with CSS, ha!
 
-I find centering content in the screen as a block to be more aesthetically pleasant that flushing against the left margin. There is not way to flush against a margin.
+I find centering content in the screen as a block to be more aesthetically pleasant that flushing against the left margin. There is no way to flush against a margin.
 
 ![Terminal Keynote Block](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-block.png)
 
