@@ -12,7 +12,7 @@ This is a total hack. It is procedural, uses a global variable, it has not been 
 
 Fuck markup, this is text going to a terminal. If you want a list type "*"s. If you want bold face or colors use ANSI escape sequences.
 
-Slides are written in Ruby. See the examples folder.
+Slides are written in Ruby. See the [examples folder](https://github.com/fxn/tkn/tree/master/examples).
 
 ## Syntax Highlighting
 
@@ -46,15 +46,15 @@ I find centering content in the screen as a block to be more aesthetically pleas
 
 Sections have a title and draw kind of a fleuron. This is also hard-coded because it is what I wanted.
 
-Sections allow you to group slides in your Ruby slide deck, and since they yield to a block you can collapse/fold the ones you are not working in for focus.
+Sections allow you to group slides in your Ruby slide deck, and since they yield to a block you can collapse/fold the ones you are not working on for focus.
 
-The nested structure is not modelled internally. The script only sees a flat linear sequence of slides.
+The nested structure is not modeled internally. The script only sees a flat linear sequence of slides.
 
 ![Terminal Keynote Section](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-section.png)
 
 ## Visual Effects
 
-There is a hard-coded visual effect: Once the exact characters of a given slide are computed, we print char by char with a couple milliseconds in between. That gives the illusion of an old-school running cursor effect. Configure block blinking cursor for maximum awesomeness.
+There is one hard-coded visual effect: Once the exact characters of a given slide are computed, we print char by char with a couple milliseconds in between. That gives the illusion of an old-school running cursor. Configure block blinking cursor for maximum awesomeness.
 
 ## Installation
 
@@ -68,23 +68,25 @@ If Terminal Keynote evolves it is going to do so in backwards incompatible ways 
 
 * To go backwards press any of "b", "p", "h", "j", PageUp (but see below).
 
-* Beginning of the talk: "^"
+* First slide: "^"
 
-* End of the talk: "$"
+* Last slide: "$"
 
-My Logitech remote emits PageDown and PageUp. You get those as ANSI escape sequences "\e[5~" and "\e[6~" respectively. The script understands them, but you need to [configure them in Terminal.app](http://fplanque.com/dev/mac/mac-osx-terminal-page-up-down-home-end-of-line) and also tell it to pass them down to the shell selecting "send string to the shell" in the "Action" selector.
+* Exit the presentation: "q"
+
+My Logitech remote emits PageDown and PageUp. You get those as "\e[5~" and "\e[6~" respectively and the script understands them, but you need to [configure them in Terminal.app](http://fplanque.com/dev/mac/mac-osx-terminal-page-up-down-home-end-of-line) and also tell it to pass them down to the shell selecting "send string to the shell" in the "Action" selector.
 
 ## Font and Terminal Configuration
 
 I used Menlo, 32 points. That gives 18x52 in a screen resolution of 1024x768.
 
-For your setup: Find out the resolution of the projector of your conference (ask the organization in advance). Set the screen to that resolution, choose font size and maximize window. When you like how it looks, then run `stty size` and write down rows and cols.
+For your preferred setup, find out the resolution of the projector of your conference (ask the organization in advance). Set the screen to that resolution, choose font and font size and maximize window, and write down the number of rows and columns. Depending on your terminal configuration they may be displayed in the title bar of the window. Run `stty size` otherwise.
 
-Then, define in your terminal application a profile for the theme you like, and initial dimensions to those rows and cols. That way the terminal will launch with those dimensions no matter the screen resolution and you can hack your talk in your day to day with the native resolution, knowing how is going to look in proportion.
+Then, define in your terminal a profile for the conference, choose a theme you like and configure those settings. In particular set the initial rows and cols to those figures. That way the terminal will launch with all set no matter the screen resolution and you can hack your talk in your day to day with the native resolution, seeing how it is going to look in proportion.
 
 ## Editor Snippets
 
-A snippet for your editor is basic to write slides quickly. The extras folder has a snippet for Sublime Text 2.
+A snippet for your editor is basic to write slides quickly. The [extras folder](https://github.com/fxn/tkn/tree/master/extras) has a snippet for Sublime Text 2.
 
 ## Cathode
 
