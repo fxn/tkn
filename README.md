@@ -68,11 +68,11 @@ If Terminal Keynote evolves it is going to do so in backwards incompatible ways 
 
 * To go backwards press any of "b", "p", "h", "j", PageUp (but see below).
 
-* First slide: "^"
+* First slide: "^".
 
-* Last slide: "$"
+* Last slide: "$".
 
-* Exit the presentation: "q"
+* Quit: "q"
 
 My Logitech remote emits PageDown and PageUp. You get those as "\e[5~" and "\e[6~" respectively and the script understands them, but you need to [configure them in Terminal.app](http://fplanque.com/dev/mac/mac-osx-terminal-page-up-down-home-end-of-line) and also tell it to pass them down to the shell selecting "send string to the shell" in the "Action" selector.
 
