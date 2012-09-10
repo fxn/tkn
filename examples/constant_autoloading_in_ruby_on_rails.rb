@@ -191,14 +191,19 @@ section "Constant Autoloading" do
   slide <<-EOS, :code
     class Contact < ActiveRecord::Base
       after_commit :register_event
-    end
 
-    def register_event
-      Worker::EventRegister.perform_async(...)
+      def register_event
+        Worker::EventRegister.perform_async(...)
+      end
     end
   EOS
 
   slide <<-EOS, :block
+    contact/worker.rb
+    contact/worker
+
+    # trade-offs
+
     worker.rb
     worker # FOUND
   EOS
