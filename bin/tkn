@@ -1,0 +1,178 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+# UTF-8 ALL THE THINGS.
+Encoding.default_external = 'utf-8'
+Encoding.default_internal = 'utf-8'
+
+require 'active_support/core_ext/string/strip'
+require 'pygments'
+
+
+#
+# --- DSL -------------------------------------------------------------
+#
+
+def slide(content, format=:block)
+  $slides << [content.strip_heredoc, format]
+end
+
+def section(content)
+  $slides << [content, :section]
+  yield
+end
+
+
+#
+# --- ANSI Escape Sequences -------------------------------------------
+#
+
+# Clears the screen and leaves the cursor at the top left corner.
+def clear_screen
+  "\e[2J\e[H"
+end
+
+# Puts the cursor at (row, col), 1-based.
+#
+# Note that characters start to get printed where the cursor is. So, to leave
+# a left margin of 8 characters you want col to be 9.
+def cursor_at(row, col)
+  "\e[#{row};#{col}H"
+end
+
+
+#
+# --- Utilities -------------------------------------------------------
+#
+
+# Returns the width of the content, defined as the maximum length of its lines
+# discarding trailing newlines if present.
+def width(content)
+  content.each_line.map do |line|
+    ansi_length(line.chomp)
+  end.max
+end
+
+# Quick hack to compute the length of a string ignoring the characters that
+# represent ANSI escape sequences. This only supports a handful of them, the
+# ones that I want to use.
+def ansi_length(str)
+  str.gsub(/\e\[(2J|\d*(;\d+)*(m|f|H))/, '').length
+end
+
+# Returns the number of rows and columns of the terminal as an array of two
+# integers [rows, cols]. We could use io/console here but shelling out is also
+# fine.
+def winsize
+  `stty size`.split.map(&:to_i)
+end
+
+
+#
+# --- Slide Rendering -------------------------------------------------
+#
+
+# Returns a string that the caller has to print as is to get the slide
+# properly rendered. The caller is responsible for clearing the screen.
+def render(slide)
+  send("render_#{slide[1]}", slide[0]) if slide[0] =~ /\S/
+end
+
+# Renders the content by centering each individual line.
+def render_center(content)
+  nrows, ncols = winsize
+
+  ''.tap do |str|
+    nlines = content.count("\n")
+    row = [1, 1 + (nrows - nlines)/2].max
+    content.each_line.with_index do |line, i|
+      col = [1, 1 + (ncols - ansi_length(line.chomp))/2].max
+      str << cursor_at(row + i, col) + line
+    end
+  end  
+end
+
+# Renders a section banner.
+def render_section(content)
+  nrows, ncols = winsize
+  width = width(content)
+
+  rfil = [1, width - 5].max/2
+  lfil = [1, width - 5 - rfil].max
+  fleuron = '─' * lfil + ' ❧❦☙ ' + '─' * rfil
+
+  render_center("#{fleuron}\n\n#{content}\n\n#{fleuron}\n")
+end
+
+# Renders Ruby source code.
+def render_code(code)
+  render_block(Pygments.highlight(code, formatter: 'terminal256', lexer: 'ruby', options: {style: 'bw'}))
+end
+
+# Centers the whole content as a block. That is, the format within the content
+# is preserved, but the whole thing looks centered in the terminal. I think
+# this looks nicer than an ordinary flush against the left margin.
+def render_block(content)
+  nrows, ncols = winsize
+
+  nlines = content.count("\n")
+  row ||= [1, 1 + (nrows - nlines)/2].max
+  
+  width = width(content)
+  col ||= [1, 1 + (ncols - width)/2].max
+  
+  content.gsub(/^/) do
+    cursor_at(row, col).tap { row += 1 }
+  end
+end
+
+
+#
+# --- Main Loop -------------------------------------------------------
+#
+
+# Reads either one single character or PageDown or PageUp. You need to
+# configure Terminal.app so that PageDown and PageUp get passed down the
+# script. Echoing is turned off while doing this.
+def read_command
+  begin
+    system 'stty raw -echo'
+    command = STDIN.getc
+    # Consume PageUp or PageDown if present. No other ANSI escape sequence is
+    # supported so a blind 3.times getc is enough.
+    3.times { command << STDIN.getc } if command == "\e"
+    command
+  ensure
+    system "stty -raw echo"
+  end
+end
+
+n = 0
+loop do
+  print clear_screen
+
+  # We load the presentation in every iteration to ease editing and reload.
+  # This is fast enough, so who cares about caching.
+  $slides = []
+  load ARGV[0]
+
+  n = [[0, n].max, $slides.length - 1].min
+  render($slides[n]).each_char do |c|
+    print c
+    sleep 0.002 # old-school touch: running cursor
+  end
+
+  case read_command
+  when ' ', 'n', 'l', 'k', "\e[5~"
+    n += 1
+  when 'b', 'p', 'h', 'j', "\e[6~"
+    n -= 1
+  when '^'
+    n = 0
+  when '$'
+    n = $slides.length - 1
+  when 'q'
+    print clear_screen
+    exit
+  end
+end
