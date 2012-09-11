@@ -116,10 +116,10 @@ def render_block(content)
   nrows, ncols = winsize
 
   nlines = content.count("\n")
-  row ||= [1, 1 + (nrows - nlines)/2].max
+  row = [1, 1 + (nrows - nlines)/2].max
   
   width = width(content)
-  col ||= [1, 1 + (ncols - width)/2].max
+  col = [1, 1 + (ncols - width)/2].max
   
   content.gsub(/^/) do
     cursor_at(row, col).tap { row += 1 }
