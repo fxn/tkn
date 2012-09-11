@@ -1,9 +1,5 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -U
 # encoding: utf-8
-
-# UTF-8 ALL THE THINGS.
-Encoding.default_external = 'utf-8'
-Encoding.default_internal = 'utf-8'
 
 require 'io/console'
 require 'active_support/core_ext/string/strip'
