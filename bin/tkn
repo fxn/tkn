@@ -142,14 +142,19 @@ def read_command
   end
 end
 
-n = 0
+n     = 0
+deck  = ARGV[0]
+mtime = nil
+
 loop do
   print clear_screen
 
-  # We load the presentation in every iteration to ease editing and reload.
-  # This is fast enough, so who cares about caching.
-  $slides = []
-  load ARGV[0]
+  current_mtime = File.mtime(deck)
+  if mtime != current_mtime
+    $slides = []
+    load deck
+    mtime = current_mtime
+  end
 
   n = [[0, n].max, $slides.length - 1].min
   render($slides[n]).each_char do |c|
