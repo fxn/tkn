@@ -5,6 +5,7 @@
 Encoding.default_external = 'utf-8'
 Encoding.default_internal = 'utf-8'
 
+require 'io/console'
 require 'active_support/core_ext/string/strip'
 require 'pygments'
 
@@ -61,10 +62,9 @@ def ansi_length(str)
 end
 
 # Returns the number of rows and columns of the terminal as an array of two
-# integers [rows, cols]. We could use io/console here but shelling out is also
-# fine.
+# integers [rows, cols].
 def winsize
-  `stty size`.split.map(&:to_i)
+  $stdout.winsize
 end
 
 
@@ -135,15 +135,14 @@ end
 # configure Terminal.app so that PageDown and PageUp get passed down the
 # script. Echoing is turned off while doing this.
 def read_command
-  begin
-    system 'stty raw -echo'
-    command = STDIN.getc
-    # Consume PageUp or PageDown if present. No other ANSI escape sequence is
-    # supported so a blind 3.times getc is enough.
-    3.times { command << STDIN.getc } if command == "\e"
-    command
-  ensure
-    system "stty -raw echo"
+  $stdin.noecho do |noecho|
+    noecho.raw do |raw|
+      raw.getc.tap do |command|
+        # Consume PageUp or PageDown if present. No other ANSI escape sequence is
+        # supported so a blind 3.times getc is enough.
+        3.times { command << raw.getc } if command == "\e"
+      end
+    end
   end
 end
 
