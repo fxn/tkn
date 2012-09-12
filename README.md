@@ -104,3 +104,6 @@ All set, to launch the example run
 
     bundle exec bin/tkn examples/constant_autoloading_in_ruby_on_rails.rb
 
+## License
+
+Released under the MIT License, Copyright (c) 2012 Xavier Noria.
