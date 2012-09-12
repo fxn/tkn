@@ -56,24 +56,6 @@ The nested structure is not modeled internally. The script only sees a flat line
 
 There is one hard-coded visual effect: Once the exact characters of a given slide are computed, we print char by char with a couple milliseconds in between. That gives the illusion of an old-school running cursor. Configure block blinking cursor for maximum awesomeness.
 
-## Installation
-
-### Packaging
-
-By now Terminal Keynote is not going to be a gem, please clone the repo and hack your talk. In its current state it is just too tailor-made for anything but personal forks. Please keep the script together with the slides, that way you guarantee one year later the presentation will still run.
-
-If Terminal Keynote evolves it is going to do so in backwards incompatible ways for sure. So, let's wait. If the thing ever converges to something that can be packaged then I'll do it.
-
-### Requirements
-
-Terminal Keynote needs [Ruby 1.9](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
-
-Once those are installed run `gem install bundler`, root privs may be needed. Then cd into the directory with your `tkn` clone and run `bundle`, this installs the Ruby dependencies.
-
-All set, to launch the example run
-
-    bundle exec bin/tkn examples/constant_autoloading_in_ruby_on_rails.rb
-
 ## Keyboard Controls and Remotes
 
 * To go forward press any of " ", "n", "k", "l", PageDown (but see below).
@@ -103,3 +85,22 @@ A snippet for your editor is basic to write slides quickly. The [extras folder](
 ## Cathode
 
 [Cathode](http://www.secretgeometry.com/apps/cathode/) is perfect for this thing. But because of how it draws the text it doesn't do bold faces and may not be able to render some colors or Unicode characters. YMMV.
+
+## Installation
+
+### Packaging
+
+By now Terminal Keynote is not going to be a gem, please clone the repo and hack your talk. In its current state it is just too tailor-made for anything but personal forks. Please keep the script together with the slides, that way you guarantee one year later the presentation will still run.
+
+If Terminal Keynote evolves it is going to do so in backwards incompatible ways for sure. So, let's wait. If the thing ever converges to something that can be packaged then I'll do it.
+
+### Requirements
+
+Terminal Keynote needs [Ruby 1.9](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
+
+Once those are installed run `gem install bundler`, root privs may be needed. Then cd into the directory with your `tkn` clone and run `bundle`, this installs the Ruby dependencies.
+
+All set, to launch the example run
+
+    bundle exec bin/tkn examples/constant_autoloading_in_ruby_on_rails.rb
+
