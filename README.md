@@ -10,7 +10,7 @@ This is a total hack. It is procedural, uses a global variable, it has not been 
 
 ## Markup
 
-Fuck markup, this is text going to a terminal. If you want a list type "*"s. If you want bold face or colors use ANSI escape sequences.
+None, this is text going to a terminal. If you want a list type "*"s. If you want bold face or colors use ANSI escape sequences.
 
 Slides are written in Ruby. See the [examples folder](https://github.com/fxn/tkn/tree/master/examples).
 
@@ -58,9 +58,21 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 ## Installation
 
-By now this is not going to be a gem, please clone the repo and hack your talk. In its current state it is just too tailor-made for anything but personal forks. Please keep the script together with the slides, that way you guarantee one year later the presentation will still run.
+### Packaging
+
+By now Terminal Keynote is not going to be a gem, please clone the repo and hack your talk. In its current state it is just too tailor-made for anything but personal forks. Please keep the script together with the slides, that way you guarantee one year later the presentation will still run.
 
 If Terminal Keynote evolves it is going to do so in backwards incompatible ways for sure. So, let's wait. If the thing ever converges to something that can be packaged then I'll do it.
+
+### Requirements
+
+Terminal Keynote needs [Ruby 1.9](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
+
+Once those are installed run `gem install bundler`, root privs may be needed. Then cd into the directory with your `tkn` clone and run `bundle`, this installs the Ruby dependencies.
+
+All set, to launch the example run
+
+    bundle exec bin/tkn examples/constant_autoloading_in_ruby_on_rails.rb
 
 ## Keyboard Controls and Remotes
 
