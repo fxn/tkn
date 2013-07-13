@@ -22,25 +22,31 @@ Terminal Keynote is text-based, but with style! Syntax highlighting is done on t
 
 There are four types of slides:
 
-### :code
+### code
 
 A slide with source code. Syntax highlighted on the fly. If you want to put a title or file name or something use source code comments and imagination.
 
 ![Terminal Keynote Code](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-code.png)
 
-### :center
+### center
 
 A slide whose text is centered line by line.
 
 ![Terminal Keynote Center](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-center.png)
 
-### :block
+### block
 
 A slide with text content whose formatting is preserved, but that is centered as a whole in the screen. Do that with CSS, ha!
 
 I find centering content in the screen as a block to be more aesthetically pleasant that flushing against the left margin. There is no way to flush against a margin.
 
 ![Terminal Keynote Block](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-block.png)
+
+### image
+
+A slide with an image. (Only supported in [iTerm2](http://www.iterm2.com/)).
+
+![Terminal Keynote Image](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-image.png)
 
 ### Sections
 
@@ -96,7 +102,7 @@ If Terminal Keynote evolves it is going to do so in backwards incompatible ways 
 
 ### Requirements
 
-Terminal Keynote needs [Ruby 1.9](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
+Terminal Keynote needs [Ruby 1.9 or 2.0](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
 
 Once those are installed run `gem install bundler`, root privs may be needed. Then cd into the directory with your `tkn` clone and run `bundle`, this installs the Ruby dependencies.
 

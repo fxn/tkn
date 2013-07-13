@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-slide <<-EOS, :center
+center <<-EOS
   \e[1mConstant Autoloading in Ruby on Rails\e[0m
 
 
@@ -10,7 +10,7 @@ slide <<-EOS, :center
   BaRuCo 2012
 EOS
 
-slide <<-EOS, :code
+code <<-EOS
   require 'application_controller'
   require 'post'
 
@@ -21,7 +21,7 @@ slide <<-EOS, :code
   end
 EOS
 
-slide <<-EOS, :code
+code <<-EOS
   class PostsController < ApplicationController
     def index
       @posts = Post.all
@@ -30,16 +30,16 @@ slide <<-EOS, :code
 EOS
 
 section "Constants Refresher" do
-  slide <<-EOS, :code
+  code <<-EOS
     X = 1
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     class C
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # ordinary class definition
     class C < D
       include M
@@ -54,7 +54,7 @@ section "Constants Refresher" do
     C.name # => "C"
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     ArgumentError      FalseClass
     Array              Fiber
     BasicObject        File
@@ -73,11 +73,11 @@ section "Constants Refresher" do
     Exception          ...
   EOS
 
-  slide <<-EOS, :block
+  center <<-EOS
     Constants are stored in modules
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # rubinius/kernel/common/module.rb
     
     class Module
@@ -87,13 +87,13 @@ section "Constants Refresher" do
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     module M
       X = 1
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # ordinary class definition in namespace
     module XML
       class SAXParser
@@ -106,40 +106,40 @@ section "Constants Refresher" do
     end
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Constants API
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Constant Name Resolution (1)
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     module M
       X = 1
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     module Admin
       class UsersController < ApplicationController
       end
     end
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Constant Name Resolution (2)
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     M::X
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Constant Name Resolution (3)
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     module M
       module N
         class C < D
@@ -151,7 +151,7 @@ section "Constants Refresher" do
 end
 
 section "Constant Autoloading" do
-  slide <<-EOS, :code
+  code <<-EOS
     module Admin
       class UsersController < ApplicationController
         def index
@@ -161,7 +161,7 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # active_support/dependencies.rb
 
     def self.const_missing(const_name)
@@ -170,11 +170,11 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     config.autoload_paths
   EOS
 
-  slide <<-EOS, :block
+  block <<-EOS
     admin/users_controller/user.rb
     admin/users_controller/user
 
@@ -188,7 +188,7 @@ section "Constant Autoloading" do
     user.rb # FOUND
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     class Contact < ActiveRecord::Base
       after_commit :register_event
 
@@ -198,7 +198,7 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :block
+  block <<-EOS
     contact/worker.rb
     contact/worker
 
@@ -208,11 +208,11 @@ section "Constant Autoloading" do
     worker # FOUND
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     Object.const_set("Worker", Module.new)
   EOS
 
-  slide <<-EOS, :block
+  block <<-EOS
     We keep track of:
 
       * Fully qualified names of autoloaded constants
@@ -220,19 +220,19 @@ section "Constant Autoloading" do
       * Their corresponding file names
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Kernel#load and Kernel#require are wrapped
   EOS
 
-  # slide <<-EOS, :center
+  # center <<-EOS
   #   require_dependency "sti_grandchildren"
   # EOS
 
-  slide <<-EOS, :block
+  block <<-EOS
     Problem: Which Is The Nesting?
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # active_support/dependencies.rb
 
     def self.const_missing(const_name)
@@ -241,7 +241,7 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     module M
       module N
         # nesting: [M::N, M]
@@ -259,7 +259,7 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS1, :code
+  code <<-EOS1
     module M
       Module.new.module_eval <<-EOS
         # nesting: [#<Module:0x007fa4a284f708>, M]
@@ -267,15 +267,15 @@ section "Constant Autoloading" do
     end
   EOS1
 
-  slide <<-EOS, :center
+  center <<-EOS
     Trade-off for Named Modules:
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     The name reflects the nesting
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     module M
       module N
         # nesting: [M::N, M]
@@ -283,11 +283,11 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Trade-off for Anonymous Modules
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # active_support/dependencies.rb
 
     def const_missing(const_name)
@@ -296,11 +296,11 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :block
+  block <<-EOS
     Problem: Which Is The Resolution Algorithm?
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     X = 1
 
     module M
@@ -310,11 +310,11 @@ section "Constant Autoloading" do
     M::X # => NameError
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Trade-off
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # active_support/dependencies.rb
 
     from_mod.parents.any? do |p|
@@ -322,31 +322,31 @@ section "Constant Autoloading" do
     end
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     No attempt is made to follow ancestors
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Corollary: Active Support does not emulate
     constant name resolution algorithms
   EOS
 end
 
 section "Request Flow" do
-  slide <<-EOS, :code
+  code <<-EOS
     config.cache_classes
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     ActiveSupport::FileUpdateChecker
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     config.autoload_once_paths
     config.explicitly_unloadable_constants
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # rails/application.rb
 
     unless config.cache_classes
@@ -354,7 +354,7 @@ section "Request Flow" do
     end
   EOS
 
-  slide <<-EOS, :block
+  block <<-EOS
     What is watched and reloaded:
 
       * Routes
@@ -368,12 +368,12 @@ section "Request Flow" do
           - db/(schema.rb|structure.sql)
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     If files have changed, autoloaded constants
     are wiped at the beginning of the request
   EOS
 
-  slide <<-EOS, :code
+  code <<-EOS
     # active_support/dependencies.rb
 
     autoloaded_constants.each do |const|
@@ -385,7 +385,7 @@ section "Request Flow" do
     end
   EOS
 
-  slide <<-EOS, :center
+  center <<-EOS
     Constant access triggers const_missing again
     because the constants are gone
   EOS
@@ -399,15 +399,15 @@ __END__
 section 'Constant Autoloading Gotchas' do
 end
 
-slide <<-EOS, :block
+block <<-EOS
   Problem 3: Ruby autoload
 EOS
 
-slide <<-EOS, :center
+center <<-EOS
   autoload uses require
 EOS
 
-slide <<-EOS, :block
+block <<-EOS
   require 'foo'
 
   # TROLOLOL
@@ -416,7 +416,7 @@ slide <<-EOS, :block
   require 'foo'
 EOS
 
-slide <<-EOS, :center
+center <<-EOS
   # app/models/admin.rb
   # app/models/admin/user.rb
 
@@ -425,6 +425,6 @@ slide <<-EOS, :center
   end
 EOS
 
-slide <<-EOS, :block
+block <<-EOS
   no API for removing autoloads
 EOS

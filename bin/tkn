@@ -12,13 +12,33 @@ require 'pygments'
 # --- DSL -------------------------------------------------------------
 #
 
-def slide(content, format=:block)
-  $slides << [content.strip_heredoc, format]
+def center(content)
+  slide(content, :center)
 end
 
-def section(content)
-  $slides << [content, :section]
+def block(content)
+  slide(content, :block)
+end
+
+def code(content, lexer=:ruby)
+  slide(content, :code, lexer)
+end
+
+def image(image_path)
+  slide(image_path, :image)
+end
+
+def section(title)
+  slide(title, :section)
   yield
+end
+
+def slide(content, format, *args)
+  $slides << {
+    content: content.strip_heredoc,
+    format:  format,
+    args:    args
+  }
 end
 
 
@@ -37,6 +57,14 @@ end
 # a left margin of 8 characters you want col to be 9.
 def cursor_at(row, col)
   "\e[#{row};#{col}H"
+end
+
+def i(str)
+  "\e[3m#{str}\e[0m"
+end
+
+def b(str)
+  "\e[1m#{str}\e[0m"
 end
 
 
@@ -65,6 +93,21 @@ def winsize
   $stdout.winsize
 end
 
+# Sets an image as terminal background, assumes the presentation run in iTerm2.
+def set_background_image(image_path)
+  system %(osascript -e 'tell application "iTerm" to set background image path of current session of current terminal to "#{image_path}"')
+end
+
+# Clears the background image.
+def clear_background_image
+  set_background_image(nil)
+end
+
+# Is this slide an image? (procedural style).
+def image?(slide)
+  slide[:format] == :image
+end
+
 
 #
 # --- Slide Rendering -------------------------------------------------
@@ -73,7 +116,7 @@ end
 # Returns a string that the caller has to print as is to get the slide
 # properly rendered. The caller is responsible for clearing the screen.
 def render(slide)
-  send("render_#{slide[1]}", slide[0]) if slide[0] =~ /\S/
+  send("render_#{slide[:format]}", slide[:content], *slide[:args])
 end
 
 # Renders the content by centering each individual line.
@@ -91,20 +134,20 @@ def render_center(content)
 end
 
 # Renders a section banner.
-def render_section(content)
+def render_section(title)
   nrows, ncols = winsize
-  width = width(content)
+  width = width(title)
 
   rfil = [1, width - 5].max/2
   lfil = [1, width - 5 - rfil].max
   fleuron = '─' * lfil + ' ❧❦☙ ' + '─' * rfil
 
-  render_center("#{fleuron}\n\n#{content}\n\n#{fleuron}\n")
+  render_center("#{fleuron}\n\n#{title}\n\n#{fleuron}\n")
 end
 
-# Renders Ruby source code.
-def render_code(code)
-  render_block(Pygments.highlight(code, formatter: 'terminal256', lexer: 'ruby', options: {style: 'bw'}))
+# Renders source code.
+def render_code(code, lexer)
+  render_block(Pygments.highlight(code, formatter: 'terminal256', lexer: lexer, options: {style: 'bw'}))
 end
 
 # Centers the whole content as a block. That is, the format within the content
@@ -122,6 +165,11 @@ def render_block(content)
   content.gsub(/^/) do
     cursor_at(row, col).tap { row += 1 }
   end
+end
+
+# Renders an image in the terminal by setting it as background (only works with iTerm2).
+def render_image(image_path)
+  set_background_image(File.expand_path(image_path))
 end
 
 
@@ -147,8 +195,14 @@ end
 n     = 0
 deck  = ARGV[0]
 mtime = nil
+image = false
 
 loop do
+  if image
+    clear_background_image
+    image = false
+  end
+
   print clear_screen
 
   current_mtime = File.mtime(deck)
@@ -159,9 +213,16 @@ loop do
   end
 
   n = [[0, n].max, $slides.length - 1].min
-  render($slides[n]).each_char do |c|
-    print c
-    sleep 0.002 # old-school touch: running cursor
+  slide = $slides[n]
+
+  if image?(slide)
+    render(slide)
+    image = true
+  else
+    render(slide).each_char do |c|
+      print c
+      sleep 0.002 # old-school touch: running cursor
+    end
   end
 
   case read_command
