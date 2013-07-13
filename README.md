@@ -26,11 +26,32 @@ There are four types of slides:
 
 A slide with source code. Syntax highlighted on the fly. If you want to put a title or file name or something use source code comments and imagination.
 
+The `code` method accepts a second argument with the name of the programming language, defaults to `:ruby`.
+
+```ruby
+code <<-EOS
+  # rubinius/kernel/common/module.rb
+
+  class Module
+    attr_reader :constant_table
+    attr_writer :method_table
+    ...
+  end
+EOS
+```
+
 ![Terminal Keynote Code](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-code.png)
 
 ### center
 
-A slide whose text is centered line by line.
+A slide whose text is centered line by line. Note that you can write the lines against the left margin just normal, Terminal Keynote will take care of centering them. This is illustrated in the following example.
+
+```ruby
+center <<-EOS
+  Corollary: Active Support does not emulate
+  constant name resolution algorithms
+EOS
+```
 
 ![Terminal Keynote Center](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-center.png)
 
@@ -40,11 +61,31 @@ A slide with text content whose formatting is preserved, but that is centered as
 
 I find centering content in the screen as a block to be more aesthetically pleasant that flushing against the left margin. There is no way to flush against a margin.
 
+```ruby
+block <<-EOS
+  What is watched and reloaded:
+
+    * Routes
+
+    * Locales
+
+    * Application files:
+
+        - Ruby files under autoload_*
+
+        - db/(schema.rb|structure.sql)
+EOS
+```
+
 ![Terminal Keynote Block](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-block.png)
 
 ### image
 
 A slide with an image. (Only supported in [iTerm2](http://www.iterm2.com/)).
+
+```ruby
+image 'elements.png'
+```
 
 ![Terminal Keynote Image](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-image.png)
 
@@ -55,6 +96,16 @@ Sections have a title and draw kind of a fleuron. This is also hard-coded becaus
 Sections allow you to group slides in your Ruby slide deck, and since they yield to a block you can collapse/fold the ones you are not working on for focus.
 
 The nested structure is not modeled internally. The script only sees a flat linear sequence of slides.
+
+```ruby
+section "Constants Refresher" do
+  code <<-EOS
+    X = 1
+  EOS
+
+  ...
+end
+```
 
 ![Terminal Keynote Section](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-section.png)
 
@@ -91,6 +142,7 @@ A snippet for your editor is basic to write slides quickly. The [extras folder](
 ## Cathode
 
 [Cathode](http://www.secretgeometry.com/apps/cathode/) is perfect for this thing. But because of how it draws the text it doesn't do bold faces and may not be able to render some colors or Unicode characters. YMMV.
+
 
 ## Installation
 
