@@ -20,7 +20,7 @@ Terminal Keynote is text-based, but with style! Syntax highlighting is done on t
 
 ## Master Slides
 
-There are four types of slides:
+There are five types of slides:
 
 ### code
 
