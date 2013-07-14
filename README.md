@@ -6,13 +6,23 @@
 
 Terminal Keynote is a quick and dirty script I wrote for presenting my talks at [BaRuCo 2012](http://baruco.org) and [RailsClub 2012](http://railsclub.ru).
 
+Slides are written in Ruby. See the [examples folder](https://github.com/fxn/tkn/tree/master/examples).
+
 This is a total hack. It is procedural, uses a global variable, it has not been parametrized or generalized in any way. It was tailor-made for what I exactly wanted but some people in the audience asked for the script. Even if it is quick and dirty I am very happy to share it so I have commented the source code and there you go!
 
 ## Markup
 
-None, this is text going to a terminal. If you want a list type "*"s. If you want bold face or colors use ANSI escape sequences.
+None, just text going to a terminal.
 
-Slides are written in Ruby. See the [examples folder](https://github.com/fxn/tkn/tree/master/examples).
+If you want a list type "*"s. If you want bold face or colors use [ANSI escape sequences](http://en.wikipedia.org/wiki/ANSI_escape_code). There are [a few gems](https://www.ruby-toolbox.com/categories/Terminal_Coloring) that may help, but take into account that creating them in Ruby is very easy using "\e" for ESC in a string with double-quotes semantics like the heredoc literals you'll see in the examples. For example
+
+    \e[1mConstant Autoloading in Ruby on Rails\e[0m
+
+makes the title in the cover above to appear in bold, and
+
+    \e[31;1m21.64\e[0m
+
+prints "21.64" in red and also using a bold face.
 
 ## Syntax Highlighting
 
@@ -24,7 +34,9 @@ There are five types of slides:
 
 ### code
 
-A slide with source code. Syntax highlighted on the fly. If you want to put a title or file name or something use source code comments and imagination.
+A slide with source code.
+
+The listing is syntax highlighted on the fly. If you want to put a title or file name or something use source code comments and imagination.
 
 The `code` method accepts a second argument with the name of the programming language, defaults to `:ruby`.
 
@@ -44,7 +56,9 @@ EOS
 
 ### center
 
-A slide whose text is centered line by line. Note that you can write the lines against the left margin just normal, Terminal Keynote will take care of centering them. This is illustrated in the following example.
+A slide whose text is centered line by line.
+
+Note that you can write the lines against the left margin just normal, Terminal Keynote will take care of centering them. This is illustrated in the following example.
 
 ```ruby
 center <<-EOS
@@ -91,7 +105,7 @@ image 'elements.png'
 
 ![Terminal Keynote Image](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-image.png)
 
-### Sections
+### section
 
 Sections have a title and draw kind of a fleuron. This is also hard-coded because it is what I wanted.
 
