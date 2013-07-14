@@ -105,7 +105,12 @@ end
 
 # Is this slide an image? (procedural style).
 def image?(slide)
-  slide[:format] == :image
+  slide && slide[:format] == :image
+end
+
+def clear_slide(slide)
+  clear_background_image if image?(slide)
+  print clear_screen
 end
 
 
@@ -195,15 +200,10 @@ end
 n     = 0
 deck  = ARGV[0]
 mtime = nil
-image = false
+slide = nil
 
 loop do
-  if image
-    clear_background_image
-    image = false
-  end
-
-  print clear_screen
+  clear_slide(slide)
 
   current_mtime = File.mtime(deck)
   if mtime != current_mtime
@@ -217,7 +217,6 @@ loop do
 
   if image?(slide)
     render(slide)
-    image = true
   else
     render(slide).each_char do |c|
       print c
@@ -235,7 +234,7 @@ loop do
   when '$'
     n = $slides.length - 1
   when 'q'
-    print clear_screen
+    clear_slide(slide)
     exit
   end
 end
