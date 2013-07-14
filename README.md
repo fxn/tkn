@@ -81,7 +81,9 @@ EOS
 
 ### image
 
-A slide with an image. (Only supported in [iTerm2](http://www.iterm2.com/)).
+A slide with an image.
+
+This is only supported in [iTerm2](http://www.iterm2.com/)), and you need to turn the blending level to the max to see the image normally (otherwise you'll see it with kind of a translucent layer on top). To do so move the "Blending" slider in Preferences > Profiles > Window all the way to the right.
 
 ```ruby
 image 'elements.png'
