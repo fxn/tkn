@@ -24,7 +24,11 @@ makes the title in the cover above to appear in bold, and
 
 prints "21.64" in red and also using a bold face.
 
-Also, old-school [box drawing characters](https://en.wikipedia.org/wiki/Box-drawing_characters) may give [a nice touch to your slides](http://www.slideshare.net/fxn/numbers-23955525/58). These are the basic ones for copy & paste:
+Also, old-school [box drawing characters](https://en.wikipedia.org/wiki/Box-drawing_characters) may give a nice touch to your slides:
+
+![Terminal Keynote Box Drawing Characters](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-box-drawing-characters.png)
+
+These are the basic ones for copy & paste:
 
     ┌───┬───┐
     │   │   │
