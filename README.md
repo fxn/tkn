@@ -24,6 +24,14 @@ makes the title in the cover above to appear in bold, and
 
 prints "21.64" in red and also using a bold face.
 
+Also, old-school [box drawing characters](https://en.wikipedia.org/wiki/Box-drawing_characters) may give [a nice touch to your slides](http://www.slideshare.net/fxn/numbers-23955525/58). These are the basic ones for copy & paste:
+
+    ┌───┬───┐
+    │   │   │
+    ├───┼───┤
+    │   │   │
+    └───┴───┘
+
 ## Syntax Highlighting
 
 Terminal Keynote is text-based, but with style! Syntax highlighting is done on the fly with @tmm1's [pygments.rb](https://github.com/tmm1/pygments.rb). The script uses the "terminal256" formatter and "bw" style, the lexer is "ruby" by default but this can be overriden in code slides.
