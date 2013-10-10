@@ -51,6 +51,11 @@ def clear_screen
   "\e[2J\e[H"
 end
 
+# Clears the current line.
+def clear_line
+  "\e[K"
+end
+
 # Puts the cursor at (row, col), 1-based.
 #
 # Note that characters start to get printed where the cursor is. So, to leave
@@ -80,11 +85,15 @@ def width(content)
   end.max
 end
 
-# Quick hack to compute the length of a string ignoring the characters that
-# represent ANSI escape sequences. This only supports a handful of them, the
-# ones that I want to use.
+# Quick hack to remove ANSI escape sequences from a string. This only supports a
+# handful of them, the ones that I want to use.
+def ansi_strip(str)
+  str.gsub(/\e\[(2J|\d*(;\d+)*(m|f|H))/, '')
+end
+
+# Computes the length of a string ignoring ANSI escape sequences.
 def ansi_length(str)
-  str.gsub(/\e\[(2J|\d*(;\d+)*(m|f|H))/, '').length
+  ansi_strip(str).length
 end
 
 # Returns the number of rows and columns of the terminal as an array of two
@@ -179,6 +188,60 @@ end
 
 
 #
+# --- Commands --------------------------------------------------------
+#
+
+def prompt(prompt)
+  nrows, _ = winsize
+  print cursor_at(nrows, 1), clear_line, prompt, ': '
+  $stdin.gets.strip
+end
+
+def go_to(n)
+  target = prompt('Go to')
+  n = target.to_i - 1 if target.length > 0
+  n
+end
+
+def search_for(n)
+  target = prompt('Search for')
+  return n if target.length == 0
+
+  regexp = %r{#{target}}
+  $slides.each.with_index do |slide, i|
+    next if image?(slide)
+    n = i and break if ansi_strip(slide[:content]) =~ regexp
+  end
+  n
+end
+
+def display_status(n, total)
+  nrows, ncols = winsize
+
+  status = "#{n + 1}/#{total}"
+
+  row = nrows
+  col = [1, 1 + (ncols - status.length)/2].max
+
+  print cursor_at(row, col), status
+end
+
+def hide_status
+  nrows, _ = winsize
+  print cursor_at(nrows, 1), clear_line
+end
+
+def toggle_status(status, n, total)
+  if status
+    hide_status
+  else
+    display_status(n, total)
+  end
+  !status
+end
+
+
+#
 # --- Main Loop -------------------------------------------------------
 #
 
@@ -197,10 +260,11 @@ def read_command
   end
 end
 
-n     = 0
-deck  = ARGV[0]
-mtime = nil
-slide = nil
+n      = 0
+deck   = ARGV[0]
+mtime  = nil
+slide  = nil
+status = false
 
 loop do
   clear_slide(slide)
@@ -214,6 +278,8 @@ loop do
 
   n = [[0, n].max, $slides.length - 1].min
   slide = $slides[n]
+
+  display_status(n, $slides.length) if status
 
   if image?(slide)
     render(slide)
@@ -233,6 +299,12 @@ loop do
     n = 0
   when '$'
     n = $slides.length - 1
+  when 'g'
+    n = go_to(n)
+  when '/'
+    n = search_for(n)
+  when 's'
+    status = toggle_status(status, n, $slides.size)
   when 'q'
     clear_slide(slide)
     exit

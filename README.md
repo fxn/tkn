@@ -151,7 +151,21 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 * Last slide: "$".
 
+* Go to slide: "g".
+
+* Search for slide: "/".
+
+* Toggle status: "s".
+
 * Quit: "q".
+
+Searching accepts a regular expression. A nice trick to enable a modifier in a particular search is to use the
+
+    (?imx−imx:...)
+
+syntax. For example to look for "constant" in a case-insensitive way just enter
+
+    Search for: (?i:constant)
 
 My Logitech remote emits PageDown and PageUp. You get those as "\e[5~" and "\e[6~" respectively and the script understands them, but you need to [configure them in Terminal.app](http://fplanque.com/dev/mac/mac-osx-terminal-page-up-down-home-end-of-line) and also tell it to pass them down to the shell selecting "send string to the shell" in the "Action" selector.
 
