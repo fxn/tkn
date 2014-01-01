@@ -241,6 +241,45 @@ def toggle_status(status, n, total)
 end
 
 
+if ENV['WEB'] == 'true'
+  $web = true
+  $reader, $writer = IO.pipe
+
+  #
+  # --- Web Server ------------------------------------------------------
+  #
+  require 'webrick'
+
+  webserver_pid = fork do
+    server = WEBrick::HTTPServer.new :Port => 3000, :AccessLog => [[$writer, '%q']], :Logger => WEBrick::Log.new('/dev/null', Logger::FATAL)
+    server.mount_proc '/' do |req, res|
+      res.body = <<-HTML
+<html>
+  <head>
+    <title>Presentation</title>
+    <style type="text/css">
+      * { font-size: 2em; font-weight: bold; font-family: helvetica; }
+      a { color: #000; text-decoration: none; }
+      #previous { float: left; }
+      #next     { float: right; }
+      #quit     { position: absolute; bottom: 0; left: 0; font-size: .5em; }
+    </style>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+  </head>
+  <body>
+  <div id="previous"><a href="?p">&#9668;</a></div>
+  <div id="next"><a href="?n">&#9658;</a></div>
+  <div id="quit"><a href="?q" onclick="return confirm('Are you sure?')">x</a><div>
+  </body>
+</html>
+      HTML
+    end
+
+    server.start
+  end
+end
+
+
 #
 # --- Main Loop -------------------------------------------------------
 #
@@ -249,12 +288,16 @@ end
 # configure Terminal.app so that PageDown and PageUp get passed down the
 # script. Echoing is turned off while doing this.
 def read_command
-  $stdin.noecho do |noecho|
-    noecho.raw do |raw|
-      raw.getc.tap do |command|
-        # Consume PageUp or PageDown if present. No other ANSI escape sequence is
-        # supported so a blind 3.times getc is enough.
-        3.times { command << raw.getc } if command == "\e"
+  if $web
+    $reader.gets.strip
+  else
+    $stdin.noecho do |noecho|
+      noecho.raw do |raw|
+        raw.getc.tap do |command|
+          # Consume PageUp or PageDown if present. No other ANSI escape sequence is
+          # supported so a blind 3.times getc is enough.
+          3.times { command << raw.getc } if command == "\e"
+        end
       end
     end
   end
@@ -307,6 +350,7 @@ loop do
     status = toggle_status(status, n, $slides.size)
   when 'q'
     clear_slide(slide)
+    Process.kill('HUP', webserver_pid) if $web
     exit
   end
 end

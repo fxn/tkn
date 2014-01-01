@@ -185,6 +185,10 @@ A snippet for your editor is basic to write slides quickly. The [extras folder](
 
 [Cathode](http://www.secretgeometry.com/apps/cathode/) is perfect for this thing. But because of how it draws the text it doesn't do bold faces and may not be able to render some colors or Unicode characters. YMMV.
 
+## Remote
+
+If the `WEB` env var is set to `true`, it starts a webserver on port `3000`. By visiting that page with your smartphone, you can control the presentation from there.
+Note: Web and console mode are mutual exclusive: keyboard commands get ignored when web is activated.
 
 ## Installation
 
