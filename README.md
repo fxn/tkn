@@ -143,9 +143,9 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 ## Keyboard Controls and Remotes
 
-* To go forward press any of " ", "n", "k", "l", PageDown (but see below).
+* To go forward press any of " ", "n", "k", "l", Right, PageDown (but see below).
 
-* To go backwards press any of "b", "p", "h", "j", PageUp (but see below).
+* To go backwards press any of "b", "p", "h", "j", Left, PageUp (but see below).
 
 * First slide: "^".
 

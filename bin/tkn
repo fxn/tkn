@@ -252,9 +252,12 @@ def read_command
   $stdin.noecho do |noecho|
     noecho.raw do |raw|
       raw.getc.tap do |command|
-        # Consume PageUp or PageDown if present. No other ANSI escape sequence is
-        # supported so a blind 3.times getc is enough.
-        3.times { command << raw.getc } if command == "\e"
+        # Consume Right/Left/PageUp/PageDown, if present.
+        if command == "\e"
+          command << raw.getc                      # consume [
+          command << raw.getc                      # consume C, D, 5, or 6
+          command << raw.getc if command =~ /[56]/ # consume ~
+        end
       end
     end
   end
@@ -291,9 +294,9 @@ loop do
   end
 
   case read_command
-  when ' ', 'n', 'l', 'k', "\e[5~"
+  when ' ', 'n', 'l', 'k', "\e[C", "\e[5~"
     n += 1
-  when 'b', 'p', 'h', 'j', "\e[6~"
+  when 'b', 'p', 'h', 'j', "\e[D", "\e[6~"
     n -= 1
   when '^'
     n = 0
