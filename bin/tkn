@@ -7,6 +7,8 @@ require 'io/console'
 require 'active_support/core_ext/string/strip'
 require 'pygments'
 
+TRANSITIONS_TIME = 0.3
+MAX_CHAR_DELAY   = 0.002
 
 #
 # --- DSL -------------------------------------------------------------
@@ -287,9 +289,12 @@ loop do
   if image?(slide)
     render(slide)
   else
-    render(slide).each_char do |c|
+    output = render(slide)
+    pause  = [TRANSITIONS_TIME / output.length, MAX_CHAR_DELAY].min
+
+    output.each_char do |c|
       print c
-      sleep 0.002 # old-school touch: running cursor
+      sleep pause # old-school touch: running cursor
     end
   end
 
