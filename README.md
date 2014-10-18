@@ -177,6 +177,18 @@ For your preferred setup, find out the resolution of the projector of your confe
 
 Then, define in your terminal a profile for the conference, choose a theme you like and configure those settings. In particular set the initial rows and cols to those figures. That way the terminal will launch with all set no matter the screen resolution and you can hack your talk in your day to day with the native resolution, seeing how it is going to look in proportion.
 
+## PDFs
+
+PDF generation is easy.
+
+For example, on a Mac, you can put the terminal in full screen, Cmd-Shift-4 to take a screenshot, space to say you want the entire window, click. Next slide. Repeat. No big deal, in a few minutes you're done. Then go to the directory with the screenshots and run
+
+```
+convert Screenshot*.png my_presentation.pdf
+```
+
+to get a PDF with all images on it.
+
 ## Editor Snippets
 
 A snippet for your editor is basic to write slides quickly. The [extras folder](https://github.com/fxn/tkn/tree/master/extras) has a snippet for Sublime Text 2.
