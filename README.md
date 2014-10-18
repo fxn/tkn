@@ -196,7 +196,7 @@ If Terminal Keynote evolves it is going to do so in backwards incompatible ways 
 
 ### Requirements
 
-Terminal Keynote needs [Ruby 1.9 or 2.0](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
+Terminal Keynote needs [Ruby 1.9 or 2.x](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
 
 Once those are installed run `gem install bundler`, root privs may be needed. Then cd into the directory with your `tkn` clone and run `bundle`, this installs the Ruby dependencies.
 
