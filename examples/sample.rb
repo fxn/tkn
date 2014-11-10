@@ -13,6 +13,15 @@ block <<-EOS
 	some text
 EOS
 
+center <<-EOS
+	#{"dirty color hack".green}
+	#{"colors!".red}
+	#{"and underlined lines".underline}
+	#{"and bold text".bold}
+	not just normal text
+	#{"see colored 1.2 doku for more info".green_on_black}
+EOS
+
 section "my first section" do
 	center "first slide"
 	block "second slide"
