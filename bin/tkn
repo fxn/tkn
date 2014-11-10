@@ -6,6 +6,7 @@ Encoding.default_internal = "UTF-8"
 require 'io/console'
 require 'active_support/core_ext/string/strip'
 require 'pygments'
+require 'colored'
 
 TRANSITIONS_TIME = 0.3
 MAX_CHAR_DELAY   = 0.002
@@ -33,6 +34,19 @@ end
 def section(title)
   slide(title, :section)
   yield
+end
+
+def tableofcontents(content="Table of Contents")
+  content = (content + "\n").bold.underline
+  file = File.new(ARGV.first, "r")
+  while (line = file.gets)
+    begin
+      content += ">> " + /section\s\"(.*)\"\sdo/.match(line).captures.first.to_s + "\n" #"
+    rescue
+    end
+  end
+  file.close
+  slide(content, :block)
 end
 
 def slide(content, format, *args)
