@@ -15,12 +15,12 @@ MAX_CHAR_DELAY   = 0.002
 # --- DSL -------------------------------------------------------------
 #
 
-def center(content)
-  slide(content, :center)
+def center(content, headline="")
+  slide(appendHeadline(content, headline), :center)
 end
 
-def block(content)
-  slide(content, :block)
+def block(content, headline="")
+  slide(appendHeadline(content, headline), :block)
 end
 
 def code(content, lexer=:ruby)
@@ -55,6 +55,14 @@ def slide(content, format, *args)
     format:  format,
     args:    args
   }
+end
+
+def appendHeadline(content, headline)
+  if headline != ""
+    return headline.bold.underline + "\n" + content
+  else
+    return content
+  end
 end
 
 
