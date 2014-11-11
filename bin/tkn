@@ -17,6 +17,7 @@ MAX_CHAR_DELAY   = 0.002
 #-----------------------TELNET-------------------------------
 def telnet(port=4242)
   center "\n$ telnet #{IPSocket.getaddress(Socket.gethostname).blue} #{port.to_s.yellow}", "Remote Connection" 
+  return if $running
   server = TCPServer.new('0.0.0.0', port)
   $clients = Array.new
   thr = Thread.new {
@@ -24,6 +25,7 @@ def telnet(port=4242)
       $clients.push server.accept 
     }
   }
+  $running = true
 end
 #
 # --- DSL -------------------------------------------------------------
