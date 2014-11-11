@@ -49,7 +49,15 @@ EOS
 
 
 
-
+code <<-EOS
+  # rubinius/kernel/common/module.rb
+  
+  class Module
+    attr_reader :constant_table
+    attr_writer :method_table
+    ...
+  end
+EOS
 
 
 

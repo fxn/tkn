@@ -5,7 +5,7 @@ Encoding.default_internal = "UTF-8"
 
 require 'io/console'
 require 'active_support/core_ext/string/strip'
-require 'pygments'
+require 'coderay'
 require 'colored'
 require 'socket'
 
@@ -201,7 +201,7 @@ end
 
 # Renders source code.
 def render_code(code, lexer)
-  render_block(Pygments.highlight(code, formatter: 'terminal256', lexer: lexer, options: {style: 'bw'}))
+  CodeRay.scan(code, lexer).term
 end
 
 # Centers the whole content as a block. That is, the format within the content
