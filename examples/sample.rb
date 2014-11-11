@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-
+telnet #cool stuff, but for now dont use it in insecure environments
 
 center <<-EOS
 center

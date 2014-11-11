@@ -7,10 +7,24 @@ require 'io/console'
 require 'active_support/core_ext/string/strip'
 require 'pygments'
 require 'colored'
+require 'socket'
+
 
 TRANSITIONS_TIME = 0.3
 MAX_CHAR_DELAY   = 0.002
 
+
+#-----------------------TELNET-------------------------------
+def telnet(port=4242)
+  center "\n$ telnet #{IPSocket.getaddress(Socket.gethostname).blue} #{port.to_s.yellow}", "Remote Connection" 
+  server = TCPServer.new('0.0.0.0', port)
+  $clients = Array.new
+  thr = Thread.new {
+    loop{ 
+      $clients.push server.accept 
+    }
+  }
+end
 #
 # --- DSL -------------------------------------------------------------
 #
@@ -314,8 +328,16 @@ loop do
     output = render(slide)
     pause  = [TRANSITIONS_TIME / output.length, MAX_CHAR_DELAY].min
 
+    #telnet clear
+    $clients.each { |cl|
+      cl.puts "\e[H\e[2J"
+    }
+
     output.each_char do |c|
       print c
+      $clients.each { |cl|
+        cl.print c
+      }
       sleep pause # old-school touch: running cursor
     end
   end
