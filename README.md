@@ -10,19 +10,32 @@ Slides are written in Ruby. See the [examples folder](https://github.com/fxn/tkn
 
 This is a total hack. It is procedural, uses a global variable, it has not been parametrized or generalized in any way. It was tailor-made for what I exactly wanted but some people in the audience asked for the script. Even if it is quick and dirty I am very happy to share it so I have commented the source code and there you go!
 
+## Features
+   - runs in your Terminal
+   - Slides, Sections and TableOfContents
+   - Colors, Underlines, Bold Text
+   - Remote-View over plain tcp (telnet)
+   - Syntax-Highlighting for Source Code
+
 ## Markup
 
 None, just text going to a terminal.
 
-If you want a list type "*"s. If you want bold face or colors use [ANSI escape sequences](http://en.wikipedia.org/wiki/ANSI_escape_code). There are [a few gems](https://www.ruby-toolbox.com/categories/Terminal_Coloring) that may help, but take into account that creating them in Ruby is very easy using "\e" for ESC in a string with double-quotes semantics like the heredoc literals you'll see in the examples. For example
+If you want a list type "*"s. If you want bold face or colors use Ruby String-Interpolation in combination with a sting and colored 1.2:
 
-    \e[1mConstant Autoloading in Ruby on Rails\e[0m
+        #{"dirty color hack".green}
+        #{"colors!".red}
+        #{"and underlined lines".underline}
+        #{"and bold text".bold}
 
-makes the title in the cover above to appear in bold, and
 
-    \e[31;1m21.64\e[0m
+And if you just want to have a bold, underlined headline, you can use the second argument of a slide:
 
-prints "21.64" in red and also using a bold face.
+        center <<-EOS, "My custom Headline"
+        ...
+        slide content
+        ...
+        EOS
 
 Also, old-school [box drawing characters](https://en.wikipedia.org/wiki/Box-drawing_characters) may give a nice touch to your slides:
 
@@ -38,7 +51,7 @@ These are the basic ones for copy & paste:
 
 ## Syntax Highlighting
 
-Terminal Keynote is text-based, but with style! Syntax highlighting is done on the fly with @tmm1's [pygments.rb](https://github.com/tmm1/pygments.rb). The script uses the "terminal256" formatter and "bw" style, the lexer is "ruby" by default but this can be overriden in code slides.
+Terminal Keynote is text-based, but with style! Syntax highlighting is done on the fly with @rubychan's [coderay](http://coderay.rubychan.de). The lexer is "ruby" by default but this can be overriden in code slides.
 
 ## Master Slides
 
@@ -81,6 +94,8 @@ EOS
 
 ![Terminal Keynote Center](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-center.png)
 
+optional second argument: your headline
+
 ### block
 
 A slide with text content whose formatting is preserved, but that is centered as a whole in the screen. Do that with CSS, ha!
@@ -104,6 +119,8 @@ EOS
 ```
 
 ![Terminal Keynote Block](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-block.png)
+
+optional second argument: your headline
 
 ### image
 
@@ -136,6 +153,24 @@ end
 ```
 
 ![Terminal Keynote Section](https://raw.github.com/fxn/tkn/master/screenshots/terminal-keynote-section.png)
+
+## Table of Contents
+
+If you need a table of contents, you can use the following command:
+
+      tableofcontents
+
+And if you want a custom Headline, just give it as argument.
+
+      tableofcontents "my custom headline"
+
+## Telnet, Remote-View
+
+To allow people to connect to your presentation and follow it on their own Terminals include the following slide:
+
+      telnet
+
+With  optional the port as an argument. The Followers only need telnet, netcat, putty, ... and only see the current slide without any control-options.
 
 ## Visual Effects
 
@@ -208,13 +243,13 @@ If Terminal Keynote evolves it is going to do so in backwards incompatible ways 
 
 ### Requirements
 
-Terminal Keynote needs [Ruby 1.9 or 2.x](http://www.ruby-lang.org) and [Pygments](http://pygments.org).
+Terminal Keynote needs [Ruby 1.9 or 2.x](http://www.ruby-lang.org).
 
 Once those are installed run `gem install bundler`, root privs may be needed. Then cd into the directory with your `tkn` clone and run `bundle`, this installs the Ruby dependencies.
 
 All set, to launch the example run
 
-    bundle exec bin/tkn examples/constant_autoloading_in_ruby_on_rails.rb
+    bundle exec bin/tkn examples/sample.rb
 
 ## License
 
