@@ -146,7 +146,7 @@ def render_center(content)
       col = [1, 1 + (ncols - ansi_length(line.chomp))/2].max
       str << cursor_at(row + i, col) + line
     end
-  end  
+  end
 end
 
 # Renders a section banner.
@@ -174,10 +174,10 @@ def render_block(content)
 
   nlines = content.count("\n")
   row = [1, 1 + (nrows - nlines)/2].max
-  
+
   width = width(content)
   col = [1, 1 + (ncols - width)/2].max
-  
+
   content.gsub(/^/) do
     cursor_at(row, col).tap { row += 1 }
   end
