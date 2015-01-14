@@ -299,11 +299,11 @@ loop do
   end
 
   case read_command
-  when ' ', 'n', 'l', 'k', "\e[C", "\e[5~"
+  when ' ', 'n', 'l', 'k', "\e[C", "\e[6~"
     n += 1
-  when 'b', 'p', 'h', 'j', "\e[D", "\e[6~"
+  when 'b', 'p', 'h', 'j', "\e[D", "\e[5~"
     n -= 1
-  when '^'
+  when '^', '.'
     n = 0
   when '$'
     n = $slides.length - 1
