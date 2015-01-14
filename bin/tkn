@@ -163,7 +163,7 @@ end
 
 # Renders source code.
 def render_code(code, lexer)
-  render_block(Pygments.highlight(code, formatter: 'terminal256', lexer: lexer, options: {style: 'bw'}))
+  render_block(Pygments.highlight(code, formatter: 'terminal256', lexer: lexer, options: {style: 'bw'}) + "\n")
 end
 
 # Centers the whole content as a block. That is, the format within the content
