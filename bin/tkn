@@ -57,7 +57,8 @@ def tableofcontents(content="Table of Contents")
   file = File.new(ARGV.first, "r")
   while (line = file.gets)
     begin
-      content += ">> " + /section\s(["'])(.*)\1\sdo/.match(line).captures[1].to_s + "\n" #"
+      matches = /^(\s*)section\s(["'])(.*)\2\sdo/.match(line) #"
+      content += "#{matches.captures.first.to_s}>> " + matches.captures[2].to_s + "\n"
     rescue
     end
   end
