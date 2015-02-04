@@ -157,6 +157,8 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 * Toggle status: "s".
 
+* Run $SHELL inside presentation (console): "c"
+
 * Quit: "q".
 
 Searching accepts a regular expression. A nice trick to enable a modifier in a particular search is to use the

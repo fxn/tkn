@@ -242,6 +242,10 @@ def toggle_status(status, n, total)
   !status
 end
 
+def run_console
+  system("#{ENV['SHELL']}")
+end
+
 
 #
 # --- Main Loop -------------------------------------------------------
@@ -313,6 +317,10 @@ loop do
     n = search_for(n)
   when 's'
     status = toggle_status(status, n, $slides.size)
+  when 'c'
+    clear_slide(slide)
+    run_console
+    clear_slide(slide)
   when 'q'
     clear_slide(slide)
     exit
