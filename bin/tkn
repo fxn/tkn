@@ -36,10 +36,16 @@ def section(title)
 end
 
 def slide(content, format, *args)
+  # Find out line number where this slide is defined
+  # account for code, block, center etc that insert one line
+  loc = caller.first =~ /^#{__FILE__}/ ? caller[1] : caller[0]
+  line = /[^:]+:(\d+):in/.match(loc).captures.first
+
   $slides << {
     content: content.strip_heredoc,
     format:  format,
-    args:    args
+    args:    args,
+    line:    line
   }
 end
 
@@ -242,6 +248,16 @@ def toggle_status(status, n, total)
   !status
 end
 
+def run_editor(deck,slide)
+  editor = ENV['VISUAL']
+  editor = ENV['EDITOR'] if !editor || editor.empty?
+  editor = %x(which vim).chomp if !editor || editor.empty?
+  # if no editor found, can't do much
+  return if !editor || editor.empty?
+  # Joe, nano and vi(m) support opening file at given line number
+  linenum = editor =~ /joe|nano|vi/ ? "+#{slide[:line]}" : ""
+  system("#{editor} #{linenum} #{deck}")
+end
 
 #
 # --- Main Loop -------------------------------------------------------
@@ -313,6 +329,10 @@ loop do
     n = search_for(n)
   when 's'
     status = toggle_status(status, n, $slides.size)
+  when 'v'
+    clear_slide(slide)
+    run_editor(deck,slide)
+    clear_slide(slide)
   when 'q'
     clear_slide(slide)
     exit

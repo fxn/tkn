@@ -157,6 +157,8 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 * Toggle status: "s".
 
+* Edit deck with $VISUAL or $EDITOR or vim. If editor supports, jump to current slide location: "v"
+
 * Quit: "q".
 
 Searching accepts a regular expression. A nice trick to enable a modifier in a particular search is to use the
