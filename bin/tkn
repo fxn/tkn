@@ -54,15 +54,13 @@ end
 
 def tableofcontents(content="Table of Contents")
   content = (content + "\n").bold.underline
-  file = File.new(ARGV.first, "r")
-  while (line = file.gets)
+  File.open(ARGV.first, 'r').each do |line|
     begin
       matches = /^(\s*)section\s(["'])(.*)\2\sdo/.match(line) #"
       content += "#{matches.captures.first.to_s}>> " + matches.captures[2].to_s + "\n"
     rescue
     end
   end
-  file.close
   slide(content, :block)
 end
 
@@ -75,10 +73,10 @@ def slide(content, format, *args)
 end
 
 def appendHeadline(content, headline)
-  if headline != ""
-    return headline.bold.underline + "\n" + content
+  if headline && !headline.empty?
+    headline.bold.underline + "\n" + content
   else
-    return content
+    content
   end
 end
 
