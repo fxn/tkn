@@ -5,6 +5,7 @@ Encoding.default_internal = "UTF-8"
 
 require 'io/console'
 require 'active_support/core_ext/string/strip'
+require 'active_support/core_ext/object/blank'
 require 'pygments'
 
 TRANSITIONS_TIME = 0.3
@@ -270,6 +271,16 @@ deck   = ARGV[0]
 mtime  = nil
 slide  = nil
 status = false
+
+if deck.blank?
+  puts "Please specify the file"
+  exit 1
+end
+
+unless File.exist?(deck)
+  puts "#{deck} does not exist"
+  exit 1
+end
 
 loop do
   clear_slide(slide)
