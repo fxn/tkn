@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-Encoding.default_internal = "UTF-8"
+Encoding.default_internal = 'UTF-8'
 
 require 'getoptlong'
 require 'io/console'
