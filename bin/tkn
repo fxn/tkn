@@ -243,7 +243,7 @@ def toggle_status(status, n, total)
 end
 
 def run_console
-  system("#{ENV['SHELL']}")
+  system(ENV['SHELL'])
 end
 
 

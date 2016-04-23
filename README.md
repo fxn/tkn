@@ -157,7 +157,7 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 * Toggle status: "s".
 
-* Run $SHELL inside presentation (console): "c"
+* Run `$SHELL` inside the presentation (console): "c".
 
 * Quit: "q".
 
