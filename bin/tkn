@@ -3,12 +3,39 @@
 
 Encoding.default_internal = "UTF-8"
 
+require 'getoptlong'
 require 'io/console'
 require 'active_support/core_ext/string/strip'
 require 'pygments'
 
 TRANSITIONS_TIME = 0.3
 MAX_CHAR_DELAY   = 0.002
+
+def usage_and_exit(exit_status)
+  puts <<EOS
+tkn - Terminal Keynote
+
+Usage:
+  tkn [OPTIONS] deck.rb
+
+Options:
+  -h, --help:
+     Print this help
+
+Commands:
+  Next slide:        SPC, n, k, l, Right, PageDown
+  Previous slide:    b, p, h, j, Left, PageUp
+  First slide:       ^
+  Last slide:        $
+  Go to slide:       g
+  Search:            /
+  Toggle status:     s
+  Console:           c
+  Quit:              q
+EOS
+
+  exit exit_status
+end
 
 #
 # --- DSL -------------------------------------------------------------
@@ -269,8 +296,29 @@ def read_command
   end
 end
 
+begin
+  opts = GetoptLong.new(['--help', '-h', GetoptLong::NO_ARGUMENT])
+  opts.each do |opt, _|
+    case opt
+    when '--help'
+      usage_and_exit(0)
+    end
+  end
+rescue GetoptLong::InvalidOption
+  usage_and_exit(1)
+end
+
+if ARGV.empty?
+  usage_and_exit(1)
+end
+
+deck = ARGV[0]
+if !File.exists?(deck)
+  puts "Can't find deck #{deck}"
+  exit 1
+end
+
 n      = 0
-deck   = ARGV[0]
 mtime  = nil
 slide  = nil
 status = false
