@@ -171,13 +171,21 @@ syntax. For example to look for "constant" in a case-insensitive way just enter
 
 My Logitech remote emits PageDown and PageUp. You get those as "\e[5~" and "\e[6~" respectively and the script understands them, but you need to [configure them in Terminal.app](http://fplanque.com/dev/mac/mac-osx-terminal-page-up-down-home-end-of-line) and also tell it to pass them down to the shell selecting "send string to the shell" in the "Action" selector.
 
-## Font and Terminal Configuration
+## Terminal Profile
 
-I used Menlo, 32 points. That gives 18x52 in a screen resolution of 1024x768.
+For your preferred setup you tipically have one profile per resolution:
 
-For your preferred setup, find out the resolution of the projector of your conference (ask the organization in advance). Set the screen to that resolution, choose font and font size and maximize window, and write down the number of rows and columns. Depending on your terminal configuration they may be displayed in the title bar of the window. Run `stty size` otherwise.
+1. Find out the resolution of the projector of the conference (ask the organization).
 
-Then, define in your terminal a profile for the conference, choose a theme you like and configure those settings. In particular set the initial rows and cols to those figures. That way the terminal will launch with all set no matter the screen resolution and you can hack your talk in your day to day with the native resolution, seeing how it is going to look in proportion.
+2. Set the screen to that resolution. In Mac OS X, if the resolution is not included among the ones available in the Displays configuration panel, try holding the Option key while clicking on the "Scaled" radio button.
+
+3. Choose font and font size with a maximized window, check a slide with long horizontal or vertical content. Write down the number of rows and columns. Depending on your terminal configuration they may be displayed in the title bar of the window. Run `stty size` otherwise.
+
+4. Then, define in your terminal a profile for that resolution, choose a theme you like and configure those settings. In particular set the initial rows and cols to those figures.
+
+Using that profile the terminal will launch with all set no matter the screen resolution and you can hack your talk in your day to day with the native resolution, seeing how it is going to look in proportion.
+
+The profile for the presentation above uses Menlo at 32 points. That gives 18x52 in a screen resolution of 1024x768.
 
 ## PDFs
 
