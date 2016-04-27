@@ -157,7 +157,7 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 * Toggle status: "s".
 
-* Run `$SHELL` inside the presentation (console): "c".
+* Run `$SHELL` inside the presentation (console): "c" (resume with Ctrl-D).
 
 * Quit: "q".
 
@@ -173,7 +173,7 @@ My Logitech remote emits PageDown and PageUp. You get those as "\e[5~" and "\e[6
 
 ## Terminal Profile
 
-For your preferred setup you tipically have one profile per resolution:
+For your preferred setup you typically have one profile per resolution:
 
 1. Find out the resolution of the projector of the conference (ask the organization).
 
