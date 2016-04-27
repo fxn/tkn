@@ -36,6 +36,8 @@ These are the basic ones for copy & paste:
     │   │   │
     └───┴───┘
 
+If the boxes show a little vertical gap in the terminal instead of the solid lines seen in the screenshots, chances are the font is configured with some extra vertical spacing. Go to the font dialog and turn it back to 1.0 or something.
+
 ## Syntax Highlighting
 
 Terminal Keynote is text-based, but with style! Syntax highlighting is done on the fly with @tmm1's [pygments.rb](https://github.com/tmm1/pygments.rb). The script uses the "terminal256" formatter and "bw" style, the lexer is "ruby" by default but this can be overriden in code slides.
