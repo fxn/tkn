@@ -1,0 +1,41 @@
+# Snippets for Atom.
+#
+# Click on Atom -> Snippets... and throw this stuff in the snippets.cson file that gets opened.
+
+'.source.ruby':
+  'Code slide':
+    'prefix': 'code'
+    'body': """
+      code <<-EOS
+        $1
+      EOS
+    """
+  'Center slide':
+    'prefix': 'center'
+    'body': """
+      center <<-EOS
+        $1
+      EOS
+    """
+  'Block slide':
+    'prefix': 'block'
+    'body': """
+      block <<-EOS
+        $1
+      EOS
+    """
+  'Image slide':
+    'prefix': 'image'
+    'body': """
+      image <<-EOS
+        $1
+      EOS
+    """
+   'Section block':
+     'prefix': 'section'
+     'body': """
+       section "$1" do
+         $2
+       end
+     """
+
