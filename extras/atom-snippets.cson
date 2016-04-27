@@ -34,7 +34,7 @@
    'Section block':
      'prefix': 'section'
      'body': """
-       section "$1" do
+       section '$1' do
          $2
        end
      """
