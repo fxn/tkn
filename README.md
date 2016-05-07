@@ -153,7 +153,7 @@ There is one hard-coded visual effect: Once the exact characters of a given slid
 
 * Last slide: "$".
 
-* Go to slide: "g".
+* Go to slide: "g" (accepts a 1-based index, "t" for tallest, and "w" for widest, useful for checking font size).
 
 * Search for slide: "/".
 
@@ -181,9 +181,9 @@ For your preferred setup you typically have one profile per resolution:
 
 2. Set the screen to that resolution. In Mac OS X, if the resolution is not included among the ones available in the Displays configuration panel, try holding the Option key while clicking on the "Scaled" radio button.
 
-3. Choose font and font size with a maximized window, check a slide with long horizontal or vertical content. Write down the number of rows and columns. Depending on your terminal configuration they may be displayed in the title bar of the window. Run `stty size` otherwise.
+3. Choose font and font size with a maximized window, make sure the widest and tallest slides in the deck fit (using `g t RET` and `g w RET` respectively). Check the number of rows and columns by opening a shell inside the presentation with `c` and running `stty size` (Ctrl-D to go back to the presentation).
 
-4. Then, define in your terminal a profile for that resolution, choose a theme you like and configure those settings. In particular set the initial rows and cols to those figures.
+4. Then, define in your terminal a profile for that resolution, choose a theme you like and configure those settings. In particular set font size and the initial rows and cols to those figures.
 
 Using that profile the terminal will launch with all set no matter the screen resolution and you can hack your talk in your day to day with the native resolution, seeing how it is going to look in proportion.
 

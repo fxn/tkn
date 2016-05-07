@@ -228,8 +228,23 @@ end
 
 def go_to(n)
   target = prompt('Go to')
-  n = target.to_i - 1 if target.length > 0
-  n
+  return n if target.length == 0
+
+  if target == 'w'
+    widths = []
+    $slides.each.with_index do |slide, i|
+      widths << [i, width(slide[:content])]
+    end
+    widths.max_by(&:last).first
+  elsif target == 't'
+    heights = []
+    $slides.each.with_index do |slide, i|
+      heights << [i, slide[:content].count("\n")]
+    end
+    heights.max_by(&:last).first
+  else
+    [[target.to_i, 1].max, $slides.length].min - 1
+  end
 end
 
 def search_for(n)
