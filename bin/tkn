@@ -248,13 +248,19 @@ def go_to(n)
 end
 
 def search_for(n)
-  target = prompt('Search for')
-  return n if target.length == 0
+  begin
+    target = prompt('Search for')
+    return n if target.length == 0
 
-  regexp = %r{#{target}}
-  $slides.each.with_index do |slide, i|
-    next if image?(slide)
-    n = i and break if ansi_strip(slide[:content]) =~ regexp
+    regexp = %r{#{target}}
+    $slides.each.with_index do |slide, i|
+      next if image?(slide)
+      n = i and break if ansi_strip(slide[:content]) =~ regexp
+    end
+    n
+  rescue => e
+    puts e
+    $stdin.getc
   end
   n
 end
